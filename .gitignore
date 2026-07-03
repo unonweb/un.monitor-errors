@@ -1,4 +1,2 @@
-state/journal_cursor.txt
-state/last_alert_timestamp.txt
-state/last_alert.txt
+dev_*
 config.cfg
