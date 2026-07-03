@@ -18,7 +18,7 @@ function alert {
 
 			echo -e "${message}" | \
 			mail -s "${MAIL_SUBJECT} ALERT: ${subject}" "${MAIL_TO}" \
-			&& log "<5> Mail-Alert sent to ${MAIL_TO}" \
+			&& log "<6> Mail-Alert sent to ${MAIL_TO}" \
 			&& return 0
 		fi
 	fi
