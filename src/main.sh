@@ -58,8 +58,9 @@ function main {
 	local timestamp="$(date '+%Y-%m-%d %H:%M:%S')"
 	local alert_msg=""
 	local cursor_file="${STATE_DIR}/journal_cursor.txt"
-	local alert_msg_file="${STATE_DIR}/last_alert.txt"
-	local timestamp_file="${STATE_DIR}/last_alert_timestamp.txt"
+	local last_alert_msg_file="${STATE_DIR}/last_alert.txt"
+	local last_alert_timestamp_file="${STATE_DIR}/last_alert_timestamp.txt"
+	local last_alert_timestamp
 
 	# DEBUG
 	log "<7> Using PATH_CONFIG: ${PATH_CONFIG}"
@@ -69,10 +70,11 @@ function main {
 	# MKDIR
 	mkdir -p "${STATE_DIR}"
 
-	# last_timestamp
-	local last_timestamp="start of records"
-	if [[ -f "${timestamp_file}" ]]; then
-		last_timestamp=$(cat "${timestamp_file}")
+	# last_alert_timestamp
+	if [[ -f "${last_alert_timestamp_file}" ]]; then
+		last_alert_timestamp=$(cat "${last_alert_timestamp_file}")
+	else
+		last_alert_timestamp="start of records"
 	fi
 
 	# JOURNALCTL
@@ -115,11 +117,11 @@ function main {
 		log "<5> Got ${num_lines} of alert messages"
 		alert "${num_lines} new errors" "${alert_msg_header}${alert_msg}"
 
-		log "<5> Writing alert to file: ${alert_msg_file}"
-		echo -e "${alert_msg}" > "${alert_msg_file}"
-		echo -e "${timestamp}" > "${timestamp_file}"
+		log "<6> Writing alert to file: ${last_alert_msg_file}"
+		echo -e "${alert_msg}" > "${last_alert_msg_file}"
+		echo -e "${timestamp}" > "${last_alert_timestamp_file}"
 	else
-		log "<5> No new errors found since ${last_timestamp} with priority ${JOURNAL_PRIORITY}"
+		log "<6> No new errors found since ${last_alert_timestamp} with priority ${JOURNAL_PRIORITY}"
 	fi
 }
 
