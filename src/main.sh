@@ -80,6 +80,7 @@ function main {
 	# JOURNALCTL
 	while read -r line; do
 		[[ -z "${line}" ]] && continue
+		[[ "${line}" =~ .*"-- No entries --".* ]] && continue
 
 		# CHECK ignore
 		local ignore=false
