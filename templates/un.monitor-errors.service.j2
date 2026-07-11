@@ -1,0 +1,17 @@
+[Unit]
+Description=Monitor & report errors
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart={{ exec_path }}
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=%N
+SyslogLevelPrefix=true
+
+# Security hardening
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=yes
+ReadWritePaths={{ install_path }}/state
