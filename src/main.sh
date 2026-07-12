@@ -81,6 +81,7 @@ function main {
 	while read -r line; do
 		[[ -z "${line}" ]] && continue
 		[[ "${line}" =~ .*"-- No entries --".* ]] && continue
+		[[ "${line}" =~ "-- Boot ".* ]] && continue
 
 		# CHECK ignore
 		local ignore=false
